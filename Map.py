@@ -18,6 +18,7 @@ class Map:
     def __init__(self,input_size, p):
         list_Map=list()
         self.player = p
+        self.wall = list()
         for i in range(input_size):
             list_Map.append(list())
             for j in range(input_size):
@@ -160,7 +161,8 @@ class Map:
                 if self.Map_mapList[temp_y][temp_x] == 1:
                     self.Map_map[temp_y][temp_x]="0"
                     self.entity[temp_y][temp_x] = Tile(model = 'quad', texture = './resources/sprites/water_tile_5.png', p=self.player,
-                                                            scale = Entity_SCALE, position = Entity_POSITION, highlight_color=color.red)
+                                                            scale = Entity_SCALE, position = Entity_POSITION)
+                    self.wall.append(Entity_POSITION)
                 if check_road[temp_y][temp_x] == [0,1,0,0,0,0,0,0]:
                     self.Map_map[temp_y][temp_x]="1"
                     self.entity[temp_y][temp_x] = Tile(model = 'quad', texture = './resources/sprites/road_tile_1.png', p=self.player,
@@ -261,12 +263,13 @@ if __name__ == '__main__':
     import sys
     window.borderless = False
     app = Ursina()
-    sys.setrecursionlimit(2000)
-    Map_size=10
+    sys.setrecursionlimit(20000)
+    Map_size=20
     p = Player()
     
     m_test=Map(input_size=Map_size, p=p)
     m_test.set_MapLine()
+    p.wall = m_test.wall
     p.x = m_test.entity[0][1].x
     p.y = m_test.entity[0][1].y
 
