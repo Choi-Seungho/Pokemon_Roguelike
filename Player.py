@@ -5,13 +5,14 @@ import random
 from BattleTab import BattleTab
 
 class Player(Entity):
-    def __init__(self):
+    def __init__(self, user_pokemon):
         super().__init__(model = 'quad', texture = './resources/sprites/player_standing_000.png', scale = (0.35 * 0.514, 0.4 * 0.514), position=(0,0))
         self.always_on_top = True
         self.move_speed = 2
         self.x, self.y = 1, 0
         self.wall = list()
         self.new_tab = None
+        self.user_pokemon = user_pokemon
         self.texture_dict = {
             'left' : ['./resources/sprites/player_left_000.png', './resources/sprites/player_left_001.png', './resources/sprites/player_left_002.png'],
             'right' : ['./resources/sprites/player_right_000.png', './resources/sprites/player_right_001.png', './resources/sprites/player_right_002.png'],
@@ -34,7 +35,7 @@ class Player(Entity):
                     self.x -= self.move_speed * time.dt
                     if(rand <= 0.01):
                         self.battle = True
-                        self.new_tab = BattleTab()
+                        self.new_tab = BattleTab(self.user_pokemon)
                 else:
                     self.x += 1 * time.dt
                 self.change_texture('left')
@@ -43,7 +44,7 @@ class Player(Entity):
                     self.x += self.move_speed * time.dt
                     if(rand <= 0.01):
                         self.battle = True
-                        self.new_tab = BattleTab()
+                        self.new_tab = BattleTab(self.user_pokemon)
                 else:
                     self.x -= 1 * time.dt
                 self.change_texture('right')
@@ -52,7 +53,7 @@ class Player(Entity):
                     self.y += self.move_speed * time.dt
                     if(rand <= 0.01):
                         self.battle = True
-                        self.new_tab = BattleTab()
+                        self.new_tab = BattleTab(self.user_pokemon)
                 else:
                     self.y -= 1 * time.dt
                 self.change_texture('back')
@@ -61,7 +62,7 @@ class Player(Entity):
                     self.y -= self.move_speed * time.dt
                     if(rand <= 0.01):
                         self.battle = True
-                        self.new_tab = BattleTab()
+                        self.new_tab = BattleTab(self.user_pokemon)
                 else:
                     self.y += 1 * time.dt
                 self.change_texture('front')
