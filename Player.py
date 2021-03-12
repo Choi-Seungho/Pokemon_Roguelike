@@ -3,6 +3,8 @@ import numpy as np
 import math
 import random
 from BattleTab import BattleTab
+from Monster import Monster
+import pickle
 
 class Player(Entity):
     def __init__(self, user_pokemon):
@@ -22,6 +24,13 @@ class Player(Entity):
         self.now_texture = None
         self.t_count = 0
         self.battle = False
+        self.first_stage = [1, 4, 7, 10, 13, 16, 19, 21, 23, 25, 27, 29, 32, 35, 37, 39, 41, 43, 46, 48, 
+                            50, 52, 54, 56, 58, 60, 63, 66, 69, 72, 74, 77, 79, 81, 83, 84, 86, 88, 90, 90,
+                            92, 95, 96, 98, 100, 102, 104, 109, 111, 116, 118, 120, 129, 133, 138, 140, 147]
+        self.pokemon_list = list()
+        with open('./resources/pokemon_list.pkl', 'rb') as f:
+            for i in range(1, 152):
+                self.pokemon_list.append(pickle.load(f))
 
     def update(self):
         if not self.battle:
@@ -35,7 +44,10 @@ class Player(Entity):
                     self.x -= self.move_speed * time.dt
                     if(rand <= 0.01):
                         self.battle = True
-                        self.new_tab = BattleTab(self.user_pokemon)
+                        enemy = Monster(position=(0,0))
+                        enemy.visible = False
+                        enemy.set_pokemon(self.pokemon_list[random.sample(self.first_stage, 1)[0]-1])
+                        self.new_tab = BattleTab(self.user_pokemon, enemy)
                 else:
                     self.x += 1 * time.dt
                 self.change_texture('left')
@@ -44,7 +56,10 @@ class Player(Entity):
                     self.x += self.move_speed * time.dt
                     if(rand <= 0.01):
                         self.battle = True
-                        self.new_tab = BattleTab(self.user_pokemon)
+                        enemy = Monster(position=(0,0))
+                        enemy.visible = False
+                        enemy.set_pokemon(self.pokemon_list[random.sample(self.first_stage, 1)[0]-1])
+                        self.new_tab = BattleTab(self.user_pokemon, enemy)
                 else:
                     self.x -= 1 * time.dt
                 self.change_texture('right')
@@ -53,7 +68,10 @@ class Player(Entity):
                     self.y += self.move_speed * time.dt
                     if(rand <= 0.01):
                         self.battle = True
-                        self.new_tab = BattleTab(self.user_pokemon)
+                        enemy = Monster(position=(0,0))
+                        enemy.visible = False
+                        enemy.set_pokemon(self.pokemon_list[random.sample(self.first_stage, 1)[0]-1])
+                        self.new_tab = BattleTab(self.user_pokemon, enemy)
                 else:
                     self.y -= 1 * time.dt
                 self.change_texture('back')
@@ -62,7 +80,10 @@ class Player(Entity):
                     self.y -= self.move_speed * time.dt
                     if(rand <= 0.01):
                         self.battle = True
-                        self.new_tab = BattleTab(self.user_pokemon)
+                        enemy = Monster(position=(0,0))
+                        enemy.visible = False
+                        enemy.set_pokemon(self.pokemon_list[random.sample(self.first_stage, 1)[0]-1])
+                        self.new_tab = BattleTab(self.user_pokemon, enemy)
                 else:
                     self.y += 1 * time.dt
                 self.change_texture('front')
